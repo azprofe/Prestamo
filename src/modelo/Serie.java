@@ -1,20 +1,61 @@
 package modelo;
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * 
  * @author departamento
  */
+@Entity
+@Table(name="articulo")
+@PrimaryKeyJoinColumn(name="id_artic") 
 public class Serie extends Articulo implements Serializable{
 
-  public Articulo id_artic;
+  @Column(name="director")
+  private String director;
 
-  public String director;
+  @Column(name="temporada")
+  private Integer temporada;
 
-  public Integer temporada;
+  @Column(name="anno")
+  private Integer anno;
 
-  public Integer anno;
+  @Column(name="num_capit")
+  private Integer num_capit;
 
-  public Integer num_capit;
+    public Serie(){}
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public Integer getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(Integer temporada) {
+        this.temporada = temporada;
+    }
+
+    public Integer getAnno() {
+        return anno;
+    }
+
+    public void setAnno(Integer anno) {
+        this.anno = anno;
+    }
+
+    public Integer getNum_capit() {
+        return num_capit;
+    }
+
+    public void setNum_capit(Integer num_capit) {
+        this.num_capit = num_capit;
+    }
+
 
 }
