@@ -7,20 +7,38 @@ package vista;
 
 import controlador.AmigoControl;
 import controlador.Controlador;
+import javax.swing.JOptionPane;
+import modelo.Amigo;
 
 /**
  *
  * @author Adrian
  */
 public class MenuAmigo extends javax.swing.JFrame {
-    
+
     private Controlador control;
+    private boolean edicion = false;
+    private int id_amigo;
     /**
      * Creates new form MenuAmigo
      */
     public MenuAmigo(Controlador c) {
         initComponents();
+         HelperVista.centrarPantalla(this);
         control = c;
+    }
+
+    public MenuAmigo(Controlador c, Amigo a) {
+        initComponents();
+        HelperVista.centrarPantalla(this);
+        control = c;
+        jTFNombre.setText(a.getNombr_amigo());
+        jtfApellido.setText(a.getApellid_amigo());
+        jtfDireccion.setText(a.getDirecc_amigo());
+        jtfTelefono.setText(Integer.toString(a.getTlf_amigo()));
+        jcbMoroso.setSelected(a.getMoroso());
+        edicion = true;
+        id_amigo = a.getId_amigo();
     }
 
     /**
@@ -32,6 +50,7 @@ public class MenuAmigo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
         jTFNombre = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -43,6 +62,19 @@ public class MenuAmigo extends javax.swing.JFrame {
         jcbMoroso = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
+        jDialog1.setTitle("Aciertoooo!!!!");
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listado de amigos");
@@ -138,14 +170,37 @@ public class MenuAmigo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        AmigoControl ac = new AmigoControl(control.getSesion());
-        ac.nuevoAmigo(jTFNombre.getText(),jtfApellido.getText(),jtfDireccion.getText(),Integer.getInteger(jtfTelefono.getText()),jcbMoroso.isSelected());
+        if (edicion) {
+                Amigo a = control.getListaAmigos().get(id_amigo);
+                a.setApellid_amigo(jtfApellido.getText());
+                a.setDirecc_amigo(jtfDireccion.getText());
+                a.setMoroso(jcbMoroso.isSelected());
+                a.setNombr_amigo(jTFNombre.getText());
+                a.setTlf_amigo(Integer.parseInt(jtfTelefono.getText()));
+                control.getListaAmigos().set(id_amigo, a);
+        } else {
+            try {
+                AmigoControl ac = new AmigoControl(control);
+                String tlfS = jtfTelefono.getText();
+                int tlf = Integer.parseInt(tlfS);
+                boolean moroso = jcbMoroso.isSelected();
+                if (ac.nuevoAmigo(jTFNombre.getText(), jtfApellido.getText(), jtfDireccion.getText(), Integer.parseInt(jtfTelefono.getText()), jcbMoroso.isSelected())) {
+                   JOptionPane.showMessageDialog(null,"Amigo guardado con exito");  
+                   this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null,"Error al guardar el amigo");  
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

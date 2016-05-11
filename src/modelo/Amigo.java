@@ -8,7 +8,7 @@ import javax.persistence.*;
  * @author departamento
  */
 @Entity
-@Table(name="amigo")
+@Table(name="Amigo")
 public class Amigo implements Serializable {
 
   @Id
@@ -88,6 +88,10 @@ public class Amigo implements Serializable {
 
     public void setMoroso(Boolean moroso) {
         this.moroso = moroso;
+    }
+    
+    public String toString(){
+        return nombr_amigo+" "+apellid_amigo;
     }
 
 }
